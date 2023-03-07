@@ -124,7 +124,7 @@ class AssertionReconciler extends Reconciler
         $old_var_type_string = $existing_var_type->getId();
 
         if ($is_negation) {
-            return NegatedAssertionReconciler::reconcile(
+            return NegatedAssertionReconciler::reconcile( // != instead of !== enters here as Falsy and returns <never>
                 $statements_analyzer,
                 $assertion,
                 $existing_var_type,
@@ -196,7 +196,7 @@ class AssertionReconciler extends Reconciler
             if ($assertion instanceof IsClassEqual) {
                 $new_type_part = Atomic::create($assertion->type, null, $template_type_map);
             } elseif ($assertion_type = $assertion->getAtomicType()) {
-                $new_type_part = $assertion_type;
+                $new_type_part = $assertion_type; // new type set to TNull here
             } else {
                 $new_type_part = new TMixed();
             }
@@ -507,14 +507,14 @@ class AssertionReconciler extends Reconciler
                 $failed_reconciliation = Reconciler::RECONCILIATION_EMPTY;
             }
 
-            if ($intersection_type) {
+            if ($intersection_type) { // $intersection_type is null, return empty union here?
                 $new_type = $intersection_type;
             } elseif ($key !== '$this') {
                 $new_type = new Union([new TNever()]);
             }
         }
 
-        return $new_type ?: new Union([$new_type_part]);
+        return $new_type ?: new Union([$new_type_part]); // Returned new Union with TNull
     }
 
     /**

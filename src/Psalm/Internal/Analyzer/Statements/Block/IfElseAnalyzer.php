@@ -432,7 +432,7 @@ class IfElseAnalyzer
                             $context->removeDescendents($var_id, $combined_type);
                         }
 
-                        $context->vars_in_scope[$var_id] = $combined_type;
+                        $context->vars_in_scope[$var_id] = $combined_type; // $a in outer scope was set to -1|null here
                     } else {
                         $context->vars_in_scope[$var_id] =
                             $context->vars_in_scope[$var_id]->addParentNodes($type->parent_nodes);

@@ -278,7 +278,7 @@ class Reconciler
                         $negated,
                     );
 
-                    if ($result_type_candidate->isUnionEmpty()) {
+                    if ($result_type_candidate->isUnionEmpty()) { // Should be empty, but was TNull and int(1)
                         $result_type_candidate = $result_type_candidate->getBuilder()->addType(new TNever)->freeze();
                     }
 
